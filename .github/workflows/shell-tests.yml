@@ -1,0 +1,24 @@
+name: Shell tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  shell-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: POSIX shell syntax
+        run: |
+          sh -n bootstrap.sh
+          sh -n install.sh
+          sh -n uninstall.sh
+          sh -n files/googlewifi-led.sh
+          sh -n files/googlewifi-led.init
+          sh -n tests/run-tests.sh
+      - name: Mock LED and Passwall2 tests
+        run: sh tests/run-tests.sh
